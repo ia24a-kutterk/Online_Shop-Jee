@@ -1,4 +1,4 @@
-package org.mytest.online_shopjee.product;
+package org.mytest.online_shopjee;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -14,17 +14,17 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet("/ProductListServlet")
+@WebServlet(value="/ProductListServlet")
 public class ProductListServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<Product> products = new ArrayList<>();
 
-        // Stelle sicher, dass die JDBC-Treiber verfügbar sind
-        String jdbcURL = "jdbc:mysql://localhost:3306/shop?user=root";
+        String jdbcURL = "jdbc:mysql://localhost:3306/online_shop_db?user=root";
 
         try {
+            Class.forName("com.mysql.jdbc.Driver");
             Connection connection = DriverManager.getConnection(jdbcURL);
-            String sql = "SELECT * FROM Product";
+            String sql = "SELECT ProductID, Name, Description, Amount, Price, rating, picture FROM Product";
             PreparedStatement statement = connection.prepareStatement(sql);
             ResultSet resultSet = statement.executeQuery();
 

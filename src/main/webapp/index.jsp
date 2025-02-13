@@ -24,8 +24,8 @@
         <div class="col-4">
             <nav>
                 <a href="#">Homepage</a> |
-                <a href="productList.jsp">Products</a> |
-                <a href="#">Warenkorb</a>
+                <a href="ProductListServlet">Products</a> |
+                <a href="warenkorb.jsp">Warenkorb</a>
             </nav>
         </div>
         <div class="col-1 user-box">
@@ -53,7 +53,7 @@
     <!-- Produktreihe -->
 
     <section class="product-row">
-           <a href="productList.jsp">
+           <a href="ProductListServlet">
                 <div class="col-3">
                     <div class="product-box">
                         <img src="bild/shopping_card.png" alt="Product">

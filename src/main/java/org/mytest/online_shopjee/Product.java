@@ -1,4 +1,4 @@
-package org.mytest.online_shopjee.product;
+package org.mytest.online_shopjee;
 
 public class Product {
     private int productID;
