@@ -53,22 +53,19 @@
     <!-- Produktreihe -->
 
     <section class="product-row">
-           <a href="ProductListServlet">
+           <a class="product-box" href="ProductListServlet">
                 <div class="col-3">
-                    <div class="product-box">
+                    <div>
                         <img src="bild/shopping_card.png" alt="Product">
                         <p>Product</p>
                     </div>
                 </div>
            </a>
         <div class="col-3">
-
         </div>
         <div class="col-3">
-
         </div>
         <div class="col-3">
-
         </div>
     </section>
 </main>
