@@ -51,7 +51,6 @@
     </section>
 
     <!-- Produktreihe -->
-
     <section class="product-row">
            <a class="product-box" href="ProductListServlet">
                 <div class="col-3">
