@@ -12,6 +12,22 @@
     <title>Product SyncStore</title>
     <link href="https://fonts.googleapis.com/css2?family=Nova+Square&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <script>
+        function updateQuantity(productId, action) {
+            var quantityElement = document.getElementById("quantity-" + productId);
+            var currentQuantity = parseInt(quantityElement.innerText);
+            if (action === 'increase') {
+                quantityElement.innerText = currentQuantity + 1;
+            } else if (action === 'decrease' && currentQuantity > 1) {
+                quantityElement.innerText = currentQuantity - 1;
+            }
+        }
+
+        function addToCart(productId) {
+            var quantity = document.getElementById("quantity-" + productId).innerText;
+            window.location.href = "AddToCartServlet?productID=" + productId + "&quantity=" + quantity;
+        }
+    </script>
 </head>
 <body>
 <header class="container">
@@ -30,7 +46,7 @@
             <nav>
                 <a href="index.jsp">Homepage</a> |
                 <a href="#">Products</a> |
-                <a href="warenkorb.jsp">Warenkorb</a>
+                <a href="orderitems">Warenkorb</a>
             </nav>
         </div>
         <div class="col-1 user-box">
@@ -38,7 +54,6 @@
         </div>
     </div>
 </header>
-
 
 <main>
     <section class="hero">
@@ -74,10 +89,10 @@
                         <p><%= product.getDescription() %></p>
                     </div>
                     <div class="col-3 product-actions">
-                        <button class="quantity-button">-</button>
-                        <span>1</span>
-                        <button class="quantity-button">+</button>
-                        <button class="buy-button">Einkaufen</button>
+                        <button class="quantity-button" onclick="updateQuantity(<%= product.getProductID() %>, 'decrease')">-</button>
+                        <span id="quantity-<%= product.getProductID() %>">1</span>
+                        <button class="quantity-button" onclick="updateQuantity(<%= product.getProductID() %>, 'increase')">+</button>
+                        <button class="buy-button" onclick="addToCart(<%= product.getProductID() %>)">Einkaufen</button>
                     </div>
                 </div>
             </div>
@@ -89,20 +104,14 @@
     </div>
 </main>
 
-
-
-
 <footer class="footer">
     <div class="footer-content">
-        <!-- Kontaktinformationen -->
         <div class="footer-info">
             <h3>Contact</h3>
             <p>Email: info@onlineshop.com</p>
             <p>Telefon: +41 79 123 45 67</p>
             <p>Adresse: Musterstrasse 12, 8000 Zuerich</p>
         </div>
-
-        <!-- Platzhalterbild -->
         <div class="footer-image">
             <img src="bild/SS_Logo-Photoroom.png" alt="Logo von SyncStore">
         </div>

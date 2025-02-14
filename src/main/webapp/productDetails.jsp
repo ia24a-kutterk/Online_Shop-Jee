@@ -1,8 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
-
 <%@ page import="org.mytest.online_shopjee.Product" %>
-
 
 <%
     Product product = (Product) request.getAttribute("product");
@@ -14,6 +12,8 @@
     <title>Product-Details SyncStore</title>
     <link href="https://fonts.googleapis.com/css2?family=Nova+Square&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <!-- Optional: Einbinden von Font Awesome für die Sterne-Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-XXXXXXXXXXXX" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
 <header>
@@ -41,15 +41,32 @@
     </div>
 </header>
 
-<main>
-<h2>Details zum Produkt: <%= product.getName() %></h2>
-<img src="bild/<%= product.getPicture() %>" alt="<%= product.getName() %>">
-<p><strong>Preis:</strong> <%= product.getPrice() %> CHF</p>
-<p><strong>Beschreibung:</strong> <%= product.getDescription() %></p>
-<p><strong>Verfügbarkeit:</strong> <%= product.getAmount() %> Stück</p>
-<p><strong>Bewertung:</strong> <%= product.getRating() %> / 5</p>
-<!-- Weitere Details hinzufügen -->
-<a href="ProductListServlet">Zurück zur Produktübersicht</a>
+<main class="product-detail">
+    <div class="product-container">
+        <div class="product-image">
+            <img src="bild/<%= product.getPicture() %>" alt="<%= product.getName() %>">
+        </div>
+        <div class="product-info">
+            <h2><%= product.getName() %> - <%= product.getPrice() %> CHF</h2>
+            <p><strong>Lagerbestand:</strong> <%= product.getAmount() %> Stück</p>
+            <div class="product-rating">
+                <!-- Sterneanzeige: Rating = 1 ? 1 gefüllter Stern, 4 leere Sterne -->
+                <c:set var="rating" value="${product.rating}" />
+                <c:forEach var="i" begin="1" end="5">
+                    <c:choose>
+                        <c:when test="${i <= rating}">
+                            <i class="fa fa-star"></i>
+                        </c:when>
+                        <c:otherwise>
+                            <i class="fa fa-star-o"></i>
+                        </c:otherwise>
+                    </c:choose>
+                </c:forEach>
+            </div>
+            <p class="product-description"><strong>Beschreibung:</strong> <%= product.getDescription() %></p>
+        </div>
+    </div>
+    <a href="ProductListServlet" class="back-button">Zurück zur Produktübersicht</a>
 </main>
 
 <footer class="footer">

@@ -25,7 +25,7 @@
             <nav>
                 <a href="#">Homepage</a> |
                 <a href="ProductListServlet">Products</a> |
-                <a href="warenkorb.jsp">Warenkorb</a>
+                <a href="orderitems">Warenkorb</a>
             </nav>
         </div>
         <div class="col-1 user-box">
