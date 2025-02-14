@@ -301,3 +301,21 @@ footer {
     font-size: 18px;
     color: #bbb;
 }
+
+.product-detail {
+    width: 80%;
+    margin: auto;
+    text-align: center;
+    font-family: Arial, sans-serif;
+}
+
+.product-image img {
+    width: 300px;
+    height: auto;
+}
+
+.rating {
+    font-size: 20px;
+    color: gold;
+}
+
