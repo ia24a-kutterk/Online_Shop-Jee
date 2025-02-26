@@ -3,6 +3,7 @@
 
 <%
     List<Product> products = (List<Product>) request.getAttribute("products");
+    String searchQuery = request.getParameter("search");
 %>
 <!DOCTYPE html>
 <html>
@@ -66,15 +67,17 @@
                 <button class="add-button">+</button>
             </div>
             <div class="col-8">
-                <input type="text" placeholder="Suchleiste" class="search-input">
-            </div>
-            <div class="col-1">
-                <button class="search-button">Search</button>
+                <form method="GET" action="ProductListServlet">
+                    <input type="text" name="search" placeholder="Suchleiste" class="search-input" value="<%= searchQuery != null ? searchQuery : "" %>">
+                    <button type="submit" class="search-button">Search</button>
+                </form>
             </div>
         </section>
+
         <section class="product-list row">
             <% if (products != null && !products.isEmpty()) { %>
             <% for (Product product : products) { %>
+            <% if (searchQuery == null || product.getName().toLowerCase().contains(searchQuery.toLowerCase())) { %>
             <div class="col-12 product-card">
                 <div class="row">
                     <div class="col-3">
@@ -96,6 +99,7 @@
                     </div>
                 </div>
             </div>
+            <% } %>
             <% } %>
             <% } else { %>
             <p class="no-products">Keine Produkte gefunden.</p>
