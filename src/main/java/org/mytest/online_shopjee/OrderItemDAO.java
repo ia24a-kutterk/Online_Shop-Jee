@@ -70,4 +70,21 @@ public class OrderItemDAO {
             return false;
         }
     }
+
+    public boolean insert(OrderItemAdd orderItem) {
+        String sql = "INSERT INTO OrderItem (ProductID, Amount) VALUES (?, ?)";
+        try (Connection connection = DriverManager.getConnection(JDBC_URL);
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            // Setze die Parameter für das SQL-Statement
+            statement.setInt(1, orderItem.getProductID());
+            statement.setInt(2, orderItem.getAmount());
+
+            int rowsAffected = statement.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

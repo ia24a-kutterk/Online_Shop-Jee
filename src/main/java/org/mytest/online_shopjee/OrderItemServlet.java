@@ -7,11 +7,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet(value = "/OrderItemServlet")
@@ -42,7 +37,7 @@ public class OrderItemServlet extends HttpServlet {
 
         if ("delete".equals(action)) {
             int orderItemID = Integer.parseInt(request.getParameter("orderItemID"));
-            boolean deleted = orderItemDAO.delete(orderItemID); // Löscht das OrderItem
+            boolean deleted = orderItemDAO.delete(orderItemID);
 
             if (deleted) {
                 response.sendRedirect("OrderItemServlet"); // Leitet nach erfolgreichem Löschen zurück
@@ -50,10 +45,10 @@ public class OrderItemServlet extends HttpServlet {
                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Löschen fehlgeschlagen.");
             }
         } else if ("deleteAll".equals(action)) {
-            boolean deletedAll = orderItemDAO.deleteAll(); // Löscht alle OrderItems
+            boolean deletedAll = orderItemDAO.deleteAll();
 
             if (deletedAll) {
-                response.sendRedirect("OrderItemServlet"); // Leitet nach erfolgreichem Löschen zurück
+                response.sendRedirect("OrderItemServlet");
             } else {
                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Alle Bestellpositionen konnten nicht gelöscht werden.");
             }

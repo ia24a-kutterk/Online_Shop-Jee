@@ -25,11 +25,19 @@
         }
 
         function addToCart(productID) {
-            // Hole die Menge des Produkts
-            var quantity = document.getElementById('quantity-' + productID).textContent;
-
-            // Sende die ProduktID und Menge an das AddToCartServlet
-            window.location.href = 'AddToCartServlet?productID=' + productID + '&quantity=' + quantity;
+            console.log("Start")
+            let quantityElement = document.getElementById("quantity-" + productID);
+            var quantity = parseInt(quantityElement.innerText, 10);
+            fetch('Cart', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: new URLSearchParams({
+                    'productID': productID,
+                    'quantity': quantity
+                })
+            })
         }
     </script>
 </head>
@@ -97,6 +105,7 @@
                         <span id="quantity-<%= product.getProductID() %>">1</span>
                         <button class="quantity-button" onclick="updateQuantity(<%= product.getProductID() %>, 'increase')">+</button>
                         <button class="buy-button" onclick="addToCart(<%= product.getProductID() %>)">Einkaufen</button>
+
                     </div>
                 </div>
             </a>

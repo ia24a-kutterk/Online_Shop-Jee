@@ -121,6 +121,7 @@ nav a:hover {
     flex-direction: column;
     align-items: center;
     text-align: center;
+    margin-right: 850px;
 }
 
 .product-box p, a {
@@ -307,12 +308,25 @@ footer {
     background: white;
     color: black;
     border: none;
+    border-radius: 5px;
     cursor: pointer;
     font-size: 14px;
+    transition: background 0.5s, color 0.5s, transform 0.1s;
 }
-
 .buy-button {
     font-weight: bold;
+}
+
+.buy-button:active {
+    background: black;
+    color: white;
+    transform: scale(0.9);
+}
+
+.quantity-button:active {
+    background: black;
+    color: white;
+    transform: scale(0.9);
 }
 
 /* Keine Produkte gefunden */
@@ -377,6 +391,7 @@ footer {
 .product-info p {
     font-size: 16px;
     margin-bottom: 10px;
+
 }
 
 .product-rating {
@@ -433,10 +448,22 @@ footer {
     transition: background-color 0.3s;
     font-weight: bold;
 }
+
+.delete-btn{
+    margin-right: 10px;
+}
+
 .delete-button{
     font-weight: bold;
     padding: 8px 12px;
-    border-radius: 5px
+    border-radius: 5px;
+    transition: background 0.5s, color 0.5s, transform 0.1s;
+}
+
+.delete-button:active {
+    background: black;
+    color: white;
+    transform: scale(0.9);
 }
 
 .add-to-cart-btn:hover,
