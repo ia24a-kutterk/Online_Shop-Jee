@@ -57,4 +57,17 @@ public class OrderItemDAO {
             return false;
         }
     }
+    // Methode zum Löschen aller OrderItems
+    public boolean deleteAll() {
+        String sql = "DELETE FROM OrderItem";
+        try (Connection connection = DriverManager.getConnection(JDBC_URL);
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            int rowsAffected = statement.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

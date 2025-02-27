@@ -17,55 +17,47 @@ import java.util.List;
 @WebServlet(value = "/OrderItemServlet")
 public class OrderItemServlet extends HttpServlet {
 
+    private OrderItemDAO orderItemDAO = new OrderItemDAO();
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<OrderItem> orderItems = new ArrayList<>();
-        double total = 0;  // Gesamtpreis
-        int totalQuantity = 0;  // Gesamtanzahl der Produkte
+        List<OrderItem> orderItems = orderItemDAO.selectAll();
+        double total = 0;
+        int totalQuantity = 0;
 
-        String jdbcURL = "jdbc:mysql://localhost:3306/online_shop_db?user=root";
-
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection connection = DriverManager.getConnection(jdbcURL);
-            String sql = "SELECT oi.OrderItemID, p.Name, oi.Amount, p.Picture, p.ProductID, p.Price " +
-                    "FROM OrderItem oi " +
-                    "JOIN Product p ON oi.ProductID = p.ProductID";
-            PreparedStatement statement = connection.prepareStatement(sql);
-            ResultSet resultSet = statement.executeQuery();
-
-            while (resultSet.next()) {
-                double price = resultSet.getDouble("Price");
-                int amount = resultSet.getInt("Amount");
-                double itemTotalPrice = price * amount; // Berechnung des Gesamtpreises für dieses Produkt
-
-                OrderItem orderItem = new OrderItem(
-                        resultSet.getInt("OrderItemID"),
-                        resultSet.getString("Name"),
-                        amount,
-                        itemTotalPrice,  // Verwende berechneten Preis
-                        resultSet.getString("Picture"),
-                        resultSet.getInt("ProductID"),
-                        price
-                );
-                orderItems.add(orderItem);
-
-                // Berechne Gesamtpreis und Gesamtanzahl
-                totalQuantity += amount;
-                total += itemTotalPrice; // Gesamtpreis basierend auf berechnetem itemTotalPrice
-            }
-
-            resultSet.close();
-            statement.close();
-            connection.close();
-        } catch (Exception e) {
-            e.printStackTrace();
+        for (OrderItem orderItem : orderItems) {
+            totalQuantity += orderItem.getAmount();
+            total += orderItem.getTotalPrice();
         }
 
-        // Setze die berechneten Werte als Attribute
         request.setAttribute("orderItems", orderItems);
         request.setAttribute("total", total);
         request.setAttribute("totalQuantity", totalQuantity);
 
         request.getRequestDispatcher("warenkorb.jsp").forward(request, response);
     }
+
+    // Methode zum Löschen eines einzelnen OrderItems oder der gesamten Liste
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String action = request.getParameter("action");
+
+        if ("delete".equals(action)) {
+            int orderItemID = Integer.parseInt(request.getParameter("orderItemID"));
+            boolean deleted = orderItemDAO.delete(orderItemID); // Löscht das OrderItem
+
+            if (deleted) {
+                response.sendRedirect("OrderItemServlet"); // Leitet nach erfolgreichem Löschen zurück
+            } else {
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Löschen fehlgeschlagen.");
+            }
+        } else if ("deleteAll".equals(action)) {
+            boolean deletedAll = orderItemDAO.deleteAll(); // Löscht alle OrderItems
+
+            if (deletedAll) {
+                response.sendRedirect("OrderItemServlet"); // Leitet nach erfolgreichem Löschen zurück
+            } else {
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Alle Bestellpositionen konnten nicht gelöscht werden.");
+            }
+        }
+    }
 }
+

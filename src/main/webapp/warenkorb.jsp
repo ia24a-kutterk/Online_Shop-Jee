@@ -56,7 +56,8 @@
         <p><strong>Totalpreis: <%= total %> CHF   -   Anzahl: <%= totalQuantity %></strong> </p>
       </div>
       <div class="cart-header-right">
-        <button class="delete-btn" onclick="window.location.reload();">Löschen</button>
+        <!-- Button zum Löschen des gesamten Warenkorbs -->
+        <button class="delete-btn" onclick="deleteAll();">Gesamten Warenkorb leeren</button>
         <button class="pay-btn">Bezahlen</button>
       </div>
     </div>
@@ -80,7 +81,8 @@
             <p><%= item.getAmount() %> items, Total: <%= item.getAmount() * item.getPrice() %> CHF</p> <!-- Berechneter Preis -->
           </div>
           <div class="col-3 product-actions">
-            <button class="delete-button" onclick="deleteItem(<%= item.getOrderItemID() %>); window.location.reload();">Löschen</button>
+            <!-- Button zum Löschen eines einzelnen Produkts -->
+            <button class="delete-button" onclick="deleteItem(<%= item.getOrderItemID() %>);">Löschen</button>
           </div>
         </div>
       </div>
@@ -106,5 +108,50 @@
     </div>
   </div>
 </footer>
+
+<script>
+  // Funktion zum Löschen eines einzelnen Produkts
+  function deleteItem(orderItemID) {
+    if (confirm("Möchten Sie dieses Produkt wirklich löschen?")) {
+      var form = document.createElement('form');
+      form.method = 'POST';
+      form.action = 'OrderItemServlet';
+
+      var inputAction = document.createElement('input');
+      inputAction.type = 'hidden';
+      inputAction.name = 'action';
+      inputAction.value = 'delete';
+
+      var inputID = document.createElement('input');
+      inputID.type = 'hidden';
+      inputID.name = 'orderItemID';
+      inputID.value = orderItemID;
+
+      form.appendChild(inputAction);
+      form.appendChild(inputID);
+
+      document.body.appendChild(form);
+      form.submit();
+    }
+  }
+
+  // Funktion zum Löschen des gesamten Warenkorbs
+  function deleteAll() {
+    if (confirm("Möchten Sie den gesamten Warenkorb leeren?")) {
+      var form = document.createElement('form');
+      form.method = 'POST';
+      form.action = 'OrderItemServlet';
+
+      var inputAction = document.createElement('input');
+      inputAction.type = 'hidden';
+      inputAction.name = 'action';
+      inputAction.value = 'deleteAll';
+
+      form.appendChild(inputAction);
+      document.body.appendChild(form);
+      form.submit();
+    }
+  }
+</script>
 </body>
 </html>
