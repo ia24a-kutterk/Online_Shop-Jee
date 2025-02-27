@@ -1,10 +1,10 @@
 <%@ page import="org.mytest.online_shopjee.OrderItem" %>
 <%@ page import="java.util.List" %>
-<%@ page import="org.mytest.online_shopjee.Product" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
   List<OrderItem> orderItems = (List<OrderItem>) request.getAttribute("orderItems");
-  List<Product> products = (List<Product>) request.getAttribute("products");
+  double total = (Double) request.getAttribute("total");
+  int totalQuantity = (Integer) request.getAttribute("totalQuantity");
 %>
 <html>
 <head>
@@ -46,34 +46,39 @@
   </section>
 
   <div class="container">
+    <div class="cart-header row">
+      <div class="cart-header-left">
+        <button class="add-to-cart-btn">+</button>
+      </div>
+      <div class="cart-header-center">
+        <p>Totalpreis: <%= total %> CHF   -   Anzahl: <%= totalQuantity %></p>
+      </div>
+      <div class="cart-header-right">
+        <button class="delete-btn" onclick="window.location.reload();">Löschen</button>
+        <button class="pay-btn">Bezahlen</button>
+      </div>
+    </div>
+
     <section class="product-list row">
       <% if (orderItems != null && !orderItems.isEmpty()) { %>
       <% for (OrderItem item : orderItems) { %>
       <div class="col-12 product-card">
         <div class="row">
           <div class="col-3">
-            <%
-              Product product = null;
-              // Suche das Produkt, das zum OrderItem gehört
-              for (Product p : products) {
-                if (p.getProductID() == product.getProductID()) {
-                  product = p;
-                  break;
-                }
-              }
-            %>
-            <a href="ProductDetailsServlet?productID=<%= product.getProductID() %>">
-              <img src="bild/<%= product.getPicture() %>" alt="<%= product.getName() %>">
+            <a href="ProductDetailsServlet?productID=<%= item.getProductID() %>">
+              <img src="bild/<%= item.getPicture() %>" alt="<%= item.getName() %>">
             </a>
           </div>
           <div class="col-6 product-info">
-            <a class="product-titel" href="ProductDetailsServlet?productID=<%= product.getProductID() %>">
-              <h3 class="product-titel"><%= product.getName() %> - <%= item.getTotalPrice() %> CHF</h3>
+            <a class="product-titel" href="ProductDetailsServlet?productID=<%= item.getProductID() %>">
+              <h3 class="product-titel">
+                <%= item.getName() %> - <%= item.getPrice() %> CHF
+              </h3>
             </a>
-            <p><%= item.getAmount() %> items, Total: <%= item.getTotalPrice() %> CHF</p>
+            <p><%= item.getAmount() %> items, Total: <%= item.getAmount() * item.getPrice() %> CHF</p> <!-- Berechneter Preis -->
           </div>
           <div class="col-3 product-actions">
-            <button class="delete-button" onclick="deleteItem(<%= item.getOrderItemID() %>)">Löschen</button>
+            <button class="delete-button" onclick="deleteItem(<%= item.getOrderItemID() %>); window.location.reload();">Löschen</button>
           </div>
         </div>
       </div>

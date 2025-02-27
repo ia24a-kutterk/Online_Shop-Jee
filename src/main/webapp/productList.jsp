@@ -6,11 +6,11 @@
     String searchQuery = request.getParameter("search");
 %>
 <!DOCTYPE html>
-<html>
+<html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product SyncStore</title>
+    <title>Produktliste - SyncStore</title>
     <link href="https://fonts.googleapis.com/css2?family=Nova+Square&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <script>
@@ -26,6 +26,7 @@
 
         function addToCart(productId) {
             var quantity = document.getElementById("quantity-" + productId).innerText;
+            // Weiterleitung zum Servlet, das das Produkt zum Warenkorb hinzufügt
             window.location.href = "AddToCartServlet?productID=" + productId + "&quantity=" + quantity;
         }
     </script>
@@ -47,7 +48,7 @@
             <nav>
                 <a href="index.jsp">Homepage</a> |
                 <a href="#">Products</a> |
-                <a href="orderitems">Warenkorb</a>
+                <a href="OrderItemServlet">Warenkorb</a>
             </nav>
         </div>
         <div class="col-1 user-box">
@@ -69,7 +70,7 @@
             <div class="col-8">
                 <form method="GET" action="ProductListServlet">
                     <input type="text" name="search" placeholder="Suchleiste" class="search-input" value="<%= searchQuery != null ? searchQuery : "" %>">
-                    <button type="submit" class="search-button">Search</button>
+                    <button type="submit" class="search-button">Suchen</button>
                 </form>
             </div>
         </section>
@@ -86,9 +87,7 @@
                         </a>
                     </div>
                     <div class="col-6 product-info">
-                        <a class="product-titel" href="ProductDetailsServlet?productID=<%= product.getProductID() %>">
-                            <h3 class="product-titel"><%= product.getName() %> - <%= product.getPrice() %> CHF</h3>
-                        </a>
+                        <h3 class="product-title"><%= product.getName() %> - <%= product.getPrice() %> CHF</h3>
                         <p><%= product.getDescription() %></p>
                     </div>
                     <div class="col-3 product-actions">
@@ -110,12 +109,15 @@
 
 <footer class="footer">
     <div class="footer-content">
+        <!-- Kontaktinformationen -->
         <div class="footer-info">
             <h3>Contact</h3>
             <p>Email: info@onlineshop.com</p>
             <p>Telefon: +41 79 123 45 67</p>
             <p>Adresse: Musterstrasse 12, 8000 Zuerich</p>
         </div>
+
+        <!-- Platzhalterbild -->
         <div class="footer-image">
             <img src="bild/SS_Logo-Photoroom.png" alt="Logo von SyncStore">
         </div>
