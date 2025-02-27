@@ -32,7 +32,7 @@
             <nav>
                 <a href="index.jsp">Homepage</a> |
                 <a href="#">Products</a> |
-                <a href="warenkorb.jsp">Warenkorb</a>
+                <a href="OrderItemServlet">Warenkorb</a>
             </nav>
         </div>
         <div class="col-1 user-box">
@@ -42,6 +42,7 @@
 </header>
 
 <main class="product-detail">
+    <a href="ProductListServlet" class="back-button"><- Zurück zur Produktübersicht</a>
     <div class="product-container">
         <div class="product-image">
             <img src="bild/<%= product.getPicture() %>" alt="<%= product.getName() %>">
@@ -55,18 +56,17 @@
                 <c:forEach var="i" begin="1" end="5">
                     <c:choose>
                         <c:when test="${i <= rating}">
-                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star">&#9733;</i>
                         </c:when>
                         <c:otherwise>
-                            <i class="fa fa-star-o"></i>
+                            <i class="fa fa-star-o">&#9734;</i>
                         </c:otherwise>
                     </c:choose>
                 </c:forEach>
             </div>
-            <p class="product-description"><strong>Beschreibung:</strong> <%= product.getDescription() %></p>
+            <p class="product-description"><strong>Beschreibung:</strong> <br> <%= product.getDescription() %></p>
         </div>
     </div>
-    <a href="ProductListServlet" class="back-button">Zurück zur Produktübersicht</a>
 </main>
 
 <footer class="footer">

@@ -51,7 +51,7 @@ public class AddToCartServlet extends HttpServlet {
 
     private void saveOrderItemToDatabase(OrderItem orderItem) {
         // Hier wird das OrderItem in die Datenbank gespeichert (z. B. mit JDBC)
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/onlineshop", "username", "password")) {
+        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/onlineshop?user=root")) {
             String sql = "INSERT INTO OrderItems (productID, name, quantity, totalPrice, picture) VALUES (?, ?, ?, ?, ?)";
             try (PreparedStatement stmt = connection.prepareStatement(sql)) {
                 stmt.setInt(1, orderItem.getProductID());

@@ -48,10 +48,12 @@
   <div class="container">
     <div class="cart-header row">
       <div class="cart-header-left">
-        <button class="add-to-cart-btn">+</button>
+        <a href="ProductListServlet">
+          <button class="add-to-cart-btn">+</button>
+        </a>
       </div>
       <div class="cart-header-center">
-        <p>Totalpreis: <%= total %> CHF   -   Anzahl: <%= totalQuantity %></p>
+        <p><strong>Totalpreis: <%= total %> CHF   -   Anzahl: <%= totalQuantity %></strong> </p>
       </div>
       <div class="cart-header-right">
         <button class="delete-btn" onclick="window.location.reload();">Löschen</button>

@@ -24,10 +24,12 @@
             }
         }
 
-        function addToCart(productId) {
-            var quantity = document.getElementById("quantity-" + productId).innerText;
-            // Weiterleitung zum Servlet, das das Produkt zum Warenkorb hinzufügt
-            window.location.href = "AddToCartServlet?productID=" + productId + "&quantity=" + quantity;
+        function addToCart(productID) {
+            // Hole die Menge des Produkts
+            var quantity = document.getElementById('quantity-' + productID).textContent;
+
+            // Sende die ProduktID und Menge an das AddToCartServlet
+            window.location.href = 'AddToCartServlet?productID=' + productID + '&quantity=' + quantity;
         }
     </script>
 </head>
@@ -63,11 +65,11 @@
     </section>
 
     <div class="container">
-        <section class="search-bar row">
-            <div class="col-1">
+        <section class="search-bar">
+            <div class="col-12">
                 <button class="add-button">+</button>
             </div>
-            <div class="col-8">
+            <div class="col-11">
                 <form method="GET" action="ProductListServlet">
                     <input type="text" name="search" placeholder="Suchleiste" class="search-input" value="<%= searchQuery != null ? searchQuery : "" %>">
                     <button type="submit" class="search-button">Suchen</button>
@@ -75,20 +77,20 @@
             </div>
         </section>
 
-        <section class="product-list row">
+        <section class="product-list">
             <% if (products != null && !products.isEmpty()) { %>
             <% for (Product product : products) { %>
             <% if (searchQuery == null || product.getName().toLowerCase().contains(searchQuery.toLowerCase())) { %>
-            <div class="col-12 product-card">
-                <div class="row">
+            <a href="ProductDetailsServlet?productID=<%= product.getProductID() %>" class="product-card-link">
+                <div class="product-card row">
                     <div class="col-3">
-                        <a href="ProductDetailsServlet?productID=<%= product.getProductID() %>">
-                            <img src="bild/<%= product.getPicture() %>" alt="<%= product.getName() %>">
-                        </a>
+                        <img src="bild/<%= product.getPicture() %>" alt="<%= product.getName() %>">
                     </div>
-                    <div class="col-6 product-info">
-                        <h3 class="product-title"><%= product.getName() %> - <%= product.getPrice() %> CHF</h3>
-                        <p><%= product.getDescription() %></p>
+                    <div class="col-6">
+                        <a href="ProductDetailsServlet?productID=<%= product.getProductID() %>" class="product-titel">
+                            <h3 class="product-title"><%= product.getName() %> - <%= product.getPrice() %> CHF</h3>
+                        </a>
+                        <p class="product-description"><%= product.getDescription() %></p>
                     </div>
                     <div class="col-3 product-actions">
                         <button class="quantity-button" onclick="updateQuantity(<%= product.getProductID() %>, 'decrease')">-</button>
@@ -97,7 +99,7 @@
                         <button class="buy-button" onclick="addToCart(<%= product.getProductID() %>)">Einkaufen</button>
                     </div>
                 </div>
-            </div>
+            </a>
             <% } %>
             <% } %>
             <% } else { %>
@@ -109,15 +111,12 @@
 
 <footer class="footer">
     <div class="footer-content">
-        <!-- Kontaktinformationen -->
         <div class="footer-info">
             <h3>Contact</h3>
             <p>Email: info@onlineshop.com</p>
             <p>Telefon: +41 79 123 45 67</p>
             <p>Adresse: Musterstrasse 12, 8000 Zuerich</p>
         </div>
-
-        <!-- Platzhalterbild -->
         <div class="footer-image">
             <img src="bild/SS_Logo-Photoroom.png" alt="Logo von SyncStore">
         </div>
