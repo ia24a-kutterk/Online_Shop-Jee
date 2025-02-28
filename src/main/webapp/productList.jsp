@@ -3,15 +3,43 @@
 
 <%
     List<Product> products = (List<Product>) request.getAttribute("products");
+    String searchQuery = request.getParameter("search");
 %>
 <!DOCTYPE html>
-<html>
+<html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product SyncStore</title>
+    <title>Produktliste - SyncStore</title>
     <link href="https://fonts.googleapis.com/css2?family=Nova+Square&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <script>
+        function updateQuantity(productId, action) {
+            var quantityElement = document.getElementById("quantity-" + productId);
+            var currentQuantity = parseInt(quantityElement.innerText);
+            if (action === 'increase') {
+                quantityElement.innerText = currentQuantity + 1;
+            } else if (action === 'decrease' && currentQuantity > 1) {
+                quantityElement.innerText = currentQuantity - 1;
+            }
+        }
+
+        function addToCart(productID) {
+            console.log("Start")
+            let quantityElement = document.getElementById("quantity-" + productID);
+            var quantity = parseInt(quantityElement.innerText, 10);
+            fetch('Cart', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: new URLSearchParams({
+                    'productID': productID,
+                    'quantity': quantity
+                })
+            })
+        }
+    </script>
 </head>
 <body>
 <header class="container">
@@ -30,12 +58,34 @@
             <nav>
                 <a href="index.jsp">Homepage</a> |
                 <a href="#">Products</a> |
-                <a href="warenkorb.jsp">Warenkorb</a>
+                <a href="OrderItemServlet">Warenkorb</a>
             </nav>
         </div>
-        <div class="col-1 user-box">
-            <span>User</span>
-        </div>
+
+        <!-- BEGIN: Login/Logout-Status -->
+        <%
+            // Hinweis: 'session' ist in JSP bereits implizit verfügbar.
+            // Daher keine erneute Deklaration von 'session' nötig.
+            // HttpSession session = request.getSession();  // Diese Zeile wurde entfernt!
+            Boolean isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");
+            if (isLoggedIn != null && isLoggedIn) {
+        %>
+        <!-- Benutzer ist eingeloggt, Logout-Link anzeigen -->
+        <a href="LogoutServlet">
+            <div class="col-1 user-box">
+                <span>Login</span>
+            </div>
+        </a>
+        <% } else { %>
+        <!-- Benutzer ist nicht eingeloggt, Login-Link anzeigen -->
+        <a href="login.jsp">
+            <div class="col-1 user-box">
+                <span>Login</span>
+            </div>
+        </a>
+        <% } %>
+        <!-- END: Login/Logout-Status -->
+
     </div>
 </header>
 
@@ -47,40 +97,42 @@
 
     <div class="container">
         <section class="search-bar row">
-            <div class="col-1">
+            <div class="col-12">
                 <button class="add-button">+</button>
             </div>
-            <div class="col-8">
-                <input type="text" placeholder="Suchleiste" class="search-input">
-            </div>
-            <div class="col-1">
-                <button class="search-button">Search</button>
+            <div class="col-11">
+                <form method="GET" action="ProductListServlet">
+                    <input type="text" name="search" placeholder="Suchleiste" class="search-input" value="<%= searchQuery != null ? searchQuery : "" %>">
+                    <button type="submit" class="search-button">Suchen</button>
+                </form>
             </div>
         </section>
-        <section class="product-list row">
+
+        <section class="product-list">
             <% if (products != null && !products.isEmpty()) { %>
             <% for (Product product : products) { %>
-            <div class="col-12 product-card">
-                <div class="row">
+            <% if (searchQuery == null || product.getName().toLowerCase().contains(searchQuery.toLowerCase())) { %>
+            <a href="ProductDetailsServlet?productID=<%= product.getProductID() %>" class="product-card-link">
+                <div class="product-card row">
                     <div class="col-3">
-                        <a href="ProductDetailsServlet?productID=<%= product.getProductID() %>">
-                            <img src="bild/<%= product.getPicture() %>" alt="<%= product.getName() %>">
-                        </a>
+                        <img src="bild/<%= product.getPicture() %>" alt="<%= product.getName() %>">
                     </div>
-                    <div class="col-6 product-info">
-                        <a class="product-titel" href="ProductDetailsServlet?productID=<%= product.getProductID() %>">
-                            <h3 class="product-titel"><%= product.getName() %> - <%= product.getPrice() %> CHF</h3>
+                    <div class="col-6">
+                        <a href="ProductDetailsServlet?productID=<%= product.getProductID() %>" class="product-titel">
+                            <h3 class="product-title"><%= product.getName() %> - <%= product.getPrice() %> CHF</h3>
                         </a>
-                        <p><%= product.getDescription() %></p>
+                        <p class="product-description"><%= product.getDescription() %></p>
                     </div>
                     <div class="col-3 product-actions">
-                        <button class="quantity-button">-</button>
-                        <span>1</span>
-                        <button class="quantity-button">+</button>
-                        <button class="buy-button">Einkaufen</button>
+                        <button class="quantity-button" onclick="updateQuantity(<%= product.getProductID() %>, 'decrease')">-</button>
+                        <span id="quantity-<%= product.getProductID() %>">1</span>
+                        <button class="quantity-button" onclick="updateQuantity(<%= product.getProductID() %>, 'increase')">+</button>
+                        <button class="buy-button" onclick="addToCart(<%= product.getProductID() %>)">Einkaufen</button>
+
                     </div>
                 </div>
-            </div>
+            </a>
+            <% } %>
             <% } %>
             <% } else { %>
             <p class="no-products">Keine Produkte gefunden.</p>
@@ -89,20 +141,14 @@
     </div>
 </main>
 
-
-
-
 <footer class="footer">
     <div class="footer-content">
-        <!-- Kontaktinformationen -->
         <div class="footer-info">
             <h3>Contact</h3>
-            <p>Email: info@onlineshop.com</p>
+            <p>Email: info@syncstore.com</p>
             <p>Telefon: +41 79 123 45 67</p>
             <p>Adresse: Musterstrasse 12, 8000 Zuerich</p>
         </div>
-
-        <!-- Platzhalterbild -->
         <div class="footer-image">
             <img src="bild/SS_Logo-Photoroom.png" alt="Logo von SyncStore">
         </div>

@@ -52,4 +52,31 @@ public class ProductDetailsServlet extends HttpServlet {
         request.setAttribute("product", product);
         request.getRequestDispatcher("productDetails.jsp").forward(request, response);
     }
+
+    public static class ProductDAO {
+        private static final String URL = "jdbc:mysql://localhost:3306/onlineshop?user=root";
+
+        public Product getProductById(int productID) {
+            String sql = "SELECT * FROM Product WHERE ProductID = ?";
+            try (Connection connection = DriverManager.getConnection(URL);
+                 PreparedStatement stmt = connection.prepareStatement(sql)) {
+                stmt.setInt(1, productID);
+                ResultSet rs = stmt.executeQuery();
+                if (rs.next()) {
+                    return new Product(
+                            rs.getInt("ProductID"),
+                            rs.getString("Name"),
+                            rs.getString("Description"),
+                            rs.getInt("Amount"),
+                            rs.getDouble("Price"),
+                            rs.getInt("Rating"),
+                            rs.getString("Picture")
+                    );
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
 }

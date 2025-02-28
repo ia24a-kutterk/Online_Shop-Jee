@@ -7,12 +7,12 @@ body {
     color: white;
 }
 
-.logo-img img{
+.logo-img img {
     width: 150px;
     height: auto;
 }
 
-.col-4 > h1{
+.col-4 > h1 {
     margin-right: 260px;
 }
 
@@ -32,12 +32,16 @@ header {
     width: 100%;
     padding: 20px;
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Zentriert den Inhalt horizontal */
 }
 
 .row {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    width: 100%; /* Stellt sicher, dass die Zeile die volle Breite nutzt */
 }
 
 .col-1 {
@@ -117,14 +121,15 @@ nav a:hover {
     flex-direction: column;
     align-items: center;
     text-align: center;
+    margin-right: 850px;
 }
 
-.product-box p, a{
+.product-box p, a {
     color: white;
     text-decoration: none;
 }
 
-.product-box p:hover{
+.product-box p:hover {
     text-decoration: underline;
 }
 
@@ -175,18 +180,24 @@ footer {
 /* Suchleiste */
 .search-bar {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    gap: 15px; /* Etwas reduzierter Abstand */
-    margin-bottom: 20px; /* Angepasster Abstand zum nächsten Element */
+    gap: 15px;
+    margin-bottom: 20px;
+    margin-left: 40px;
+    padding: 10px;
+    background-color: #222;
+    border: 2px solid white;
+    border-radius: 5px;
+    width: 81%
 }
 
 .search-input {
-    width: 400px; /* Suchleiste länger machen */
-    padding: 12px 15px; /* Etwas mehr Innenabstand für Komfort */
+    flex-grow: 1;
+    padding: 12px 15px;
     font-size: 16px;
     border: 2px solid #444;
-    background-color: #222;
+    background-color: #333;
     color: white;
     border-radius: 5px;
     box-sizing: border-box;
@@ -194,7 +205,7 @@ footer {
 
 .search-button,
 .add-button {
-    padding: 10px 18px; /* Angepasste Button-Größe */
+    padding: 10px 18px;
     background-color: #444;
     color: white;
     border: none;
@@ -203,47 +214,53 @@ footer {
     transition: background-color 0.3s;
 }
 
-/* Hover-Effekt für Buttons */
 .search-button:hover,
 .add-button:hover {
     background-color: #666;
 }
 
-/* Responsive Anpassung für kleinere Bildschirme */
 @media (max-width: 768px) {
     .search-bar {
-        flex-direction: column; /* Stapeln der Elemente auf kleinen Bildschirmen */
-        gap: 10px; /* Reduzierter Abstand bei vertikaler Anordnung */
+        flex-direction: column;
+        gap: 10px;
     }
 
     .search-input {
-        width: 80%; /* Eingabefeld breiter auf mobilen Geräten */
+        width: 100%;
     }
 }
-
-
-
 
 /* Produktliste */
 .product-list {
     display: flex;
     flex-direction: column;
     gap: 15px;
+    width: 80%; /* Breite der Produktliste anpassen */
+    margin: 0 auto; /* Zentriert die Produktliste horizontal */
+}
+
+/* Produktkarte als Link */
+.product-card-link {
+    display: block;
+    text-decoration: none;
+    color: white; /* Weiß für Text im Link */
 }
 
 /* Produktkarte */
 .product-card {
-    width: 80%;
+    width: 100%; /* Nutzt die volle Breite des Containers */
     background: #222;
     padding: 20px;
     border: 2px solid white;
     border-radius: 10px;
-}
-
-.product-card .row {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    transition: transform 0.3s ease; /* Füge den Übergangseffekt hinzu */
+}
+
+.product-card:hover {
+    transform: scale(1.05); /* Vergrößert die Karte bei Hover */
 }
 
 /* Produktbild */
@@ -254,12 +271,17 @@ footer {
     border: 2px solid white;
 }
 
+/* Produktlink */
+.product-link {
+    display: block;
+}
+
 .product-titel {
     text-decoration: none;
     color: white;
 }
 
-.product-titel:hover{
+.product-titel:hover {
     text-decoration: underline;
 }
 
@@ -287,12 +309,25 @@ footer {
     background: white;
     color: black;
     border: none;
+    border-radius: 5px;
     cursor: pointer;
     font-size: 14px;
+    transition: background 0.5s, color 0.5s, transform 0.1s;
 }
-
 .buy-button {
     font-weight: bold;
+}
+
+.buy-button:active {
+    background: black;
+    color: white;
+    transform: scale(0.9);
+}
+
+.quantity-button:active {
+    background: black;
+    color: white;
+    transform: scale(0.9);
 }
 
 /* Keine Produkte gefunden */
@@ -300,4 +335,240 @@ footer {
     text-align: center;
     font-size: 18px;
     color: #bbb;
+}
+
+/* Produktdetailseite */
+.product-detail {
+    width: 80%;
+    margin: 20px auto;
+    text-align: left;
+    font-family: Arial, sans-serif;
+    color: white;
+}
+
+.back-button {
+    display: inline-block;
+    margin-bottom: 20px;
+    padding: 10px 15px;
+    background-color: #444;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.back-button:hover {
+    background-color: #666;
+}
+
+.product-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.product-image {
+    flex: 1;
+    max-width: 50%;
+}
+
+.product-image img {
+    width: 100%;
+    height: auto;
+    border: 2px solid white;
+    border-radius: 10px;
+}
+
+.product-info {
+    flex: 1;
+    max-width: 45%;
+}
+
+.product-info h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.product-info p {
+    font-size: 16px;
+    margin-bottom: 10px;
+
+}
+
+.product-rating {
+    margin-bottom: 20px;
+}
+
+.product-rating i {
+    font-size: 20px;
+    color: white;
+    margin-right: 5px;
+}
+
+.product-description {
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+/* Warenkorb-Header */
+.cart-header {
+    width: 81%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    padding-bottom:10px;
+    padding-top: 10px;
+    background-color: #222;
+    border: 2px solid white;
+    margin-bottom: 15px;
+    border-radius: 10px;
+}
+
+.cart-header-left,
+.cart-header-center,
+.cart-header-right {
+    display: flex;
+    align-items: center;
+}
+
+.cart-header-center p {
+    margin: 0;
+    font-size: 20px;
+}
+
+.add-to-cart-btn,
+.delete-btn,
+.pay-btn {
+    padding: 8px 12px;
+    background-color: #444;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    font-weight: bold;
+}
+
+.delete-btn{
+    margin-right: 10px;
+}
+
+.delete-button{
+    font-weight: bold;
+    padding: 8px 12px;
+    border-radius: 5px;
+    transition: background 0.5s, color 0.5s, transform 0.1s;
+}
+
+.delete-button:active {
+    background: black;
+    color: white;
+    transform: scale(0.9);
+}
+
+.add-to-cart-btn:hover,
+.delete-btn:hover,
+.pay-btn:hover {
+    background-color: #666;
+}
+
+.center{
+    height: 100%;           /* Damit der gesamte Bildschirm genutzt wird */
+    margin: 0;              /* Entfernt den Standardabstand */
+    display: flex;          /* Aktiviert Flexbox */
+    justify-content: center; /* Horizontal zentrieren */
+    align-items: center;     /* Vertikal zentrieren */
+}
+
+/* Login-Container */
+.login-container-unique {
+    background-color: #222;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+    text-align: center;
+    width: 500px;
+    border: 2px solid white;
+}
+
+/* Login-Überschrift */
+.login-title-unique {
+    font-size: 28px;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+/* Eingabefelder */
+.input-group-unique {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.label-unique {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+.input-field-unique {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #444;
+    background-color: #333;
+    color: white;
+    border-radius: 5px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+/* Checkbox & Button-Container */
+.options-unique {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+/* Checkbox */
+.checkbox-unique {
+    margin-right: 5px;
+}
+
+.checkbox-label-unique {
+    font-size: 14px;
+    margin-right: 120px;
+}
+
+/* Anmelde-Button */
+.login-button-unique {
+    width: 50%;
+    padding: 10px 15px;
+    border: 2px solid white;
+    background-color: transparent;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background 0.3s, color 0.3s;
+}
+
+.login-button-unique:hover {
+    background-color: white;
+    color: black;
+}
+
+/* Registrierungstext */
+.register-link-unique {
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+.register-unique {
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.register-unique:hover {
+    text-decoration: underline;
 }
