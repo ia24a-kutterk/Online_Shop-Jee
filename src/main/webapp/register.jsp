@@ -6,7 +6,6 @@
     <title>Registrierung</title>
     <link rel="stylesheet" type="text/css" href="styles.css">
     <style>
-        /* Stil für das Registrierungsformular */
         body{
             background-color: #111;
         }
