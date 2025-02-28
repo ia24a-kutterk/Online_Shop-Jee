@@ -80,7 +80,7 @@
         <!-- Benutzer ist nicht eingeloggt, Login-Link anzeigen -->
         <a href="login.jsp">
             <div class="col-1 user-box">
-                <span>User</span>
+                <span>Login</span>
             </div>
         </a>
         <% } %>
@@ -145,7 +145,7 @@
     <div class="footer-content">
         <div class="footer-info">
             <h3>Contact</h3>
-            <p>Email: info@onlineshop.com</p>
+            <p>Email: info@syncstore.com</p>
             <p>Telefon: +41 79 123 45 67</p>
             <p>Adresse: Musterstrasse 12, 8000 Zuerich</p>
         </div>

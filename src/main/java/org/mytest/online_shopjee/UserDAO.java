@@ -56,7 +56,7 @@ public class UserDAO {
             ps.setString(3, user.getName());
             ps.setString(4, user.getFirstName());
             ps.setString(5, user.getEmail());
-            ps.setString(6, user.getPicture());  // Neu: Parameter für Picture
+            ps.setString(6, user.getPicture());
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
