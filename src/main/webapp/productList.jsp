@@ -73,7 +73,7 @@
         <!-- Benutzer ist eingeloggt, Logout-Link anzeigen -->
         <a href="LogoutServlet">
             <div class="col-1 user-box">
-                <span>Logout</span>
+                <span>Login</span>
             </div>
         </a>
         <% } else { %>
@@ -96,7 +96,7 @@
     </section>
 
     <div class="container">
-        <section class="search-bar">
+        <section class="search-bar row">
             <div class="col-12">
                 <button class="add-button">+</button>
             </div>

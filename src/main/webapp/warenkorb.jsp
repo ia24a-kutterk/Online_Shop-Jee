@@ -35,13 +35,11 @@
       </nav>
     </div>
 
-    <!-- BEGIN: Login/Logout-Status -->
     <%
       // session ist in JSP bereits implizit verfügbar
       Boolean isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");
       if (isLoggedIn != null && isLoggedIn) {
     %>
-    <!-- Benutzer ist eingeloggt, Logout-Link anzeigen -->
     <a href="LogoutServlet">
       <div class="col-1 user-box">
         <span>Logout</span>
@@ -51,11 +49,11 @@
     <!-- Benutzer ist nicht eingeloggt, Login-Link anzeigen -->
     <a href="login.jsp">
       <div class="col-1 user-box">
-        <span>User</span>
+        <span>Login</span>
       </div>
     </a>
     <% } %>
-    <!-- END: Login/Logout-Status -->
+
 
   </div>
 </header>
@@ -73,7 +71,7 @@
         </a>
       </div>
       <div class="cart-header-center">
-        <p><strong>Totalpreis: <%= total %> CHF   -   Anzahl: <%= totalQuantity %></strong></p>
+        <p><strong>Totalpreis: <%= Math.round(total * 100) / 100f %> CHF   -   Anzahl: <%= totalQuantity %></strong></p>
       </div>
       <div class="cart-header-right">
         <!-- Button zum Löschen des gesamten Warenkorbs -->

@@ -44,7 +44,7 @@
         <!-- Benutzer ist nicht eingeloggt, Login-Link anzeigen -->
         <a href="login.jsp">
             <div class="col-1 user-box">
-                <span>User</span>
+                <span>Login</span>
             </div>
         </a>
         <% } %>
