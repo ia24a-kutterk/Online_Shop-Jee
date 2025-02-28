@@ -28,11 +28,31 @@
                 <a href="OrderItemServlet">Warenkorb</a>
             </nav>
         </div>
-        <div class="col-1 user-box">
-            <span>User</span>
-        </div>
+
+        <!-- BEGIN: Login/Logout-Status -->
+        <%
+            Boolean isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");
+            if (isLoggedIn != null && isLoggedIn) {
+        %>
+        <!-- Benutzer ist eingeloggt, Logout-Link anzeigen -->
+        <a href="LogoutServlet">
+            <div class="col-1 user-box">
+                <span>Logout</span>
+            </div>
+        </a>
+        <% } else { %>
+        <!-- Benutzer ist nicht eingeloggt, Login-Link anzeigen -->
+        <a href="login.jsp">
+            <div class="col-1 user-box">
+                <span>User</span>
+            </div>
+        </a>
+        <% } %>
+        <!-- END: Login/Logout-Status -->
+
     </div>
 </header>
+
 
 <main>
     <section class="hero">

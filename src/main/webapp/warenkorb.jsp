@@ -34,9 +34,29 @@
         <a href="#">Warenkorb</a>
       </nav>
     </div>
-    <div class="col-1 user-box">
-      <span>User</span>
-    </div>
+
+    <!-- BEGIN: Login/Logout-Status -->
+    <%
+      // session ist in JSP bereits implizit verfügbar
+      Boolean isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");
+      if (isLoggedIn != null && isLoggedIn) {
+    %>
+    <!-- Benutzer ist eingeloggt, Logout-Link anzeigen -->
+    <a href="LogoutServlet">
+      <div class="col-1 user-box">
+        <span>Logout</span>
+      </div>
+    </a>
+    <% } else { %>
+    <!-- Benutzer ist nicht eingeloggt, Login-Link anzeigen -->
+    <a href="login.jsp">
+      <div class="col-1 user-box">
+        <span>User</span>
+      </div>
+    </a>
+    <% } %>
+    <!-- END: Login/Logout-Status -->
+
   </div>
 </header>
 
@@ -53,12 +73,13 @@
         </a>
       </div>
       <div class="cart-header-center">
-        <p><strong>Totalpreis: <%= total %> CHF   -   Anzahl: <%= totalQuantity %></strong> </p>
+        <p><strong>Totalpreis: <%= total %> CHF   -   Anzahl: <%= totalQuantity %></strong></p>
       </div>
       <div class="cart-header-right">
         <!-- Button zum Löschen des gesamten Warenkorbs -->
         <button class="delete-btn" onclick="deleteAll();">Gesamten Warenkorb leeren</button>
-        <button class="pay-btn">Bezahlen</button>
+        <!-- NEU: Bezahlen-Button, der die Checkout-Funktion auslöst -->
+        <button class="pay-btn" onclick="checkout();">Bezahlen</button>
       </div>
     </div>
 
@@ -78,7 +99,7 @@
                 <%= item.getName() %> - <%= item.getPrice() %> CHF
               </h3>
             </a>
-            <p><%= item.getAmount() %> items, Total: <%= item.getAmount() * item.getPrice() %> CHF</p> <!-- Berechneter Preis -->
+            <p><%= item.getAmount() %> items, Total: <%= item.getAmount() * item.getPrice() %> CHF</p>
           </div>
           <div class="col-3 product-actions">
             <!-- Button zum Löschen eines einzelnen Produkts -->
@@ -110,7 +131,7 @@
 </footer>
 
 <script>
-  // Funktion zum Löschen eines einzelnen Produkts
+  // Funktion zum Löschen eines einzelnen Produkts (wie gehabt)
   function deleteItem(orderItemID) {
     if (confirm("Möchten Sie dieses Produkt wirklich löschen?")) {
       var form = document.createElement('form');
@@ -136,20 +157,37 @@
   }
 
   // Funktion zum Löschen des gesamten Warenkorbs
-  function deleteAll() {
-    if (confirm("Möchten Sie den gesamten Warenkorb leeren?")) {
-      var form = document.createElement('form');
-      form.method = 'POST';
-      form.action = 'OrderItemServlet';
+  // NEU: Optionaler Parameter confirmNeeded, um den Bestätigungsdialog optional zu machen
+  function deleteAll(confirmNeeded) {
+    // Falls kein Parameter übergeben wird, wird standardmäßig bestätigt
+    if (confirmNeeded === undefined || confirmNeeded) {
+      if (!confirm("Möchten Sie den gesamten Warenkorb leeren?")) {
+        return;
+      }
+    }
+    var form = document.createElement('form');
+    form.method = 'POST';
+    form.action = 'OrderItemServlet';
 
-      var inputAction = document.createElement('input');
-      inputAction.type = 'hidden';
-      inputAction.name = 'action';
-      inputAction.value = 'deleteAll';
+    var inputAction = document.createElement('input');
+    inputAction.type = 'hidden';
+    inputAction.name = 'action';
+    inputAction.value = 'deleteAll';
 
-      form.appendChild(inputAction);
-      document.body.appendChild(form);
-      form.submit();
+    form.appendChild(inputAction);
+    document.body.appendChild(form);
+    form.submit();
+  }
+
+  // NEU: JavaScript-Variable, die den Login-Status enthält (boolean)
+  var isLoggedInJS = <%= (isLoggedIn != null && isLoggedIn) ? true : false %>;
+
+  function checkout() {
+    if (isLoggedInJS) {
+      alert("Danke für ihren Einkauf");
+      deleteAll(false);
+    } else {
+      alert("Sie müssen angemeldet sein um etwas einzukaufen");
     }
   }
 </script>

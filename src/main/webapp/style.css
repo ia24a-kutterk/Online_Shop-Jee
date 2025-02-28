@@ -184,11 +184,12 @@ footer {
     align-items: center;
     gap: 15px;
     margin-bottom: 20px;
+    margin-left: 40px;
     padding: 10px;
     background-color: #222;
     border: 2px solid white;
     border-radius: 5px;
-    width: 80%
+    width: 81%
 }
 
 .search-input {
@@ -470,4 +471,104 @@ footer {
 .delete-btn:hover,
 .pay-btn:hover {
     background-color: #666;
+}
+
+.center{
+    height: 100%;           /* Damit der gesamte Bildschirm genutzt wird */
+    margin: 0;              /* Entfernt den Standardabstand */
+    display: flex;          /* Aktiviert Flexbox */
+    justify-content: center; /* Horizontal zentrieren */
+    align-items: center;     /* Vertikal zentrieren */
+}
+
+/* Login-Container */
+.login-container-unique {
+    background-color: #222;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+    text-align: center;
+    width: 500px;
+    border: 2px solid white;
+}
+
+/* Login-Überschrift */
+.login-title-unique {
+    font-size: 28px;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+/* Eingabefelder */
+.input-group-unique {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.label-unique {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+.input-field-unique {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #444;
+    background-color: #333;
+    color: white;
+    border-radius: 5px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+/* Checkbox & Button-Container */
+.options-unique {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+/* Checkbox */
+.checkbox-unique {
+    margin-right: 5px;
+}
+
+.checkbox-label-unique {
+    font-size: 14px;
+    margin-right: 120px;
+}
+
+/* Anmelde-Button */
+.login-button-unique {
+    width: 50%;
+    padding: 10px 15px;
+    border: 2px solid white;
+    background-color: transparent;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background 0.3s, color 0.3s;
+}
+
+.login-button-unique:hover {
+    background-color: white;
+    color: black;
+}
+
+/* Registrierungstext */
+.register-link-unique {
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+.register-unique {
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.register-unique:hover {
+    text-decoration: underline;
 }

@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-XXXXXXXXXXXX" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
-<header>
+<header class="container">
     <div class="row">
         <div class="col-1">
             <div class="logo-img">
@@ -31,15 +31,38 @@
         <div class="col-4">
             <nav>
                 <a href="index.jsp">Homepage</a> |
-                <a href="#">Products</a> |
+                <a href="ProductListServlet">Products</a> |
                 <a href="OrderItemServlet">Warenkorb</a>
             </nav>
         </div>
-        <div class="col-1 user-box">
-            <span>User</span>
-        </div>
+
+        <!-- BEGIN: Login/Logout-Status -->
+        <%
+            // Hinweis: 'session' ist in JSP bereits implizit verfügbar.
+            // Daher keine erneute Deklaration von 'session' nötig.
+            // HttpSession session = request.getSession();  // Diese Zeile wurde entfernt!
+            Boolean isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");
+            if (isLoggedIn != null && isLoggedIn) {
+        %>
+        <!-- Benutzer ist eingeloggt, Logout-Link anzeigen -->
+        <a href="LogoutServlet">
+            <div class="col-1 user-box">
+                <span>Logout</span>
+            </div>
+        </a>
+        <% } else { %>
+        <!-- Benutzer ist nicht eingeloggt, Login-Link anzeigen -->
+        <a href="login.jsp">
+            <div class="col-1 user-box">
+                <span>User</span>
+            </div>
+        </a>
+        <% } %>
+        <!-- END: Login/Logout-Status -->
+
     </div>
 </header>
+
 
 <main class="product-detail">
     <a href="ProductListServlet" class="back-button"><- Zurück zur Produktübersicht</a>
